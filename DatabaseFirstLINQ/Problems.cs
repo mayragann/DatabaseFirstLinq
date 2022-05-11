@@ -34,7 +34,8 @@ namespace DatabaseFirstLINQ
             //ProblemSeventeen();
             //ProblemEighteen();
             //ProblemNineteen();
-            ProblemTwenty();
+            //ProblemTwenty();
+            //BonusOne();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -295,6 +296,25 @@ namespace DatabaseFirstLINQ
             // Prompt the user to enter in an email and password through the console.
             // Take the email and password and check if the there is a person that matches that combination.
             // Print "Signed In!" to the console if they exists and the values match otherwise print "Invalid Email or Password.".
+            string emailInput = "";
+            Console.Write("Please Enter your email: ");
+            emailInput = Console.ReadLine();
+            string passwordInput = "";
+            Console.Write("Please Enter Your Password: ");
+            passwordInput = Console.ReadLine();
+
+            var validUser = _context.Users.Where(sc => sc.Email == emailInput && sc.Password == passwordInput).SingleOrDefault();
+
+            if (validUser == null)
+            {
+                Console.WriteLine("Invalid Email or Password");
+
+            }
+            else
+            {
+                Console.WriteLine("Signed In");
+                
+            }
         }
 
         private void BonusTwo()
@@ -306,7 +326,7 @@ namespace DatabaseFirstLINQ
         // BIG ONE
         private void BonusThree()
         {
-            // 1. Create functionality for a user to sign in via the console
+`
             // 2. If the user succesfully signs in
             // a. Give them a menu where they perform the following actions within the console
             // View the products in their shopping cart
@@ -315,7 +335,7 @@ namespace DatabaseFirstLINQ
             // Remove a product from their shopping cart
             // 3. If the user does not succesfully sing in
             // a. Display "Invalid Email or Password"
-            // b. Re-prompt the user for credentials
+            //// b. Re-prompt the user for credentials
 
         }
 
