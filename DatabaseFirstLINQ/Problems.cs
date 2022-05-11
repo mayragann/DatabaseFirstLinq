@@ -24,9 +24,9 @@ namespace DatabaseFirstLINQ
             //ProblemSeven();
             //ProblemEight();
             //ProblemNine();
-            ProblemTen();
+            //ProblemTen();
             //ProblemEleven();
-            //ProblemTwelve();
+            ProblemTwelve();
             //ProblemThirteen();
             //ProblemFourteen();
             //ProblemFifteen();
@@ -150,12 +150,6 @@ namespace DatabaseFirstLINQ
             // Write a LINQ query that retreives all of the products in the shopping cart of users who have the role of "Employee".
             // Then print the user's email as well as the product's name, price, and quantity to the console.
 
-            //var employees = _context.UserRoles.Include(u => u.User).Include(ur => ur.Role).Where(r => r.Role.RoleName == "Employee");
-            
-            //foreach(var employee in employees)
-            //{
-            //    var shoppingCart = _context.ShoppingCarts.Include(u => employee.UserId).Include(p => p.Product);
-            //}
             var employeeEmails = _context.UserRoles.Include(ur => ur.User).Include(ur => ur.Role).Where(ur => ur.Role.RoleName == "employee").Select(ur => ur.User.Email).ToList();
             var employeeShoppingCarts = _context.ShoppingCarts.Include(sh => sh.User).Include(sh => sh.Product).Where(sh => employeeEmails.Contains(sh.User.Email));
             foreach (var employeeShoppingCart in employeeShoppingCarts)
@@ -184,6 +178,14 @@ namespace DatabaseFirstLINQ
         private void ProblemTwelve()
         {
             // Create a new Product object and add that product to the Products table using LINQ.
+            Product newProduct = new Product()
+            {
+                Name = "PS5",
+                Description = "Game Console",
+                Price = 1000
+            };
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
 
         }
 
