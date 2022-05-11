@@ -36,6 +36,8 @@ namespace DatabaseFirstLINQ
             //ProblemNineteen();
             //ProblemTwenty();
             //BonusOne();
+            BonusTwo();
+            //BonusThree();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -321,12 +323,20 @@ namespace DatabaseFirstLINQ
         {
             // Write a query that finds the total of every users shopping cart products using LINQ.
             // Display the total of each users shopping cart as well as the total of the toals to the console.
-        }
+            var users = _context.Users.ToList();
+            var shoppingCartTotal = _context.ShoppingCarts.Include(sc => sc.User).Include(sc => sc.Product).Select(sc => sc.Product.Price * sc.Quantity).Sum();
+            foreach(var user in users)
+            {
+                var shoppingCarts = _context.ShoppingCarts.Include(sc => sc.User).Include(sc => sc.Product).Where(sc => sc.User.Email == user.Email).Select(sc => sc.Product.Price * (sc.Quantity)).Sum();
+                Console.WriteLine($"{user.Email} your total is {shoppingCarts}");
+            }
+            Console.WriteLine($" Everyones total = {shoppingCartTotal}");
+        }   
 
         // BIG ONE
         private void BonusThree()
         {
-`
+
             // 2. If the user succesfully signs in
             // a. Give them a menu where they perform the following actions within the console
             // View the products in their shopping cart
