@@ -36,8 +36,8 @@ namespace DatabaseFirstLINQ
             //ProblemNineteen();
             //ProblemTwenty();
             //BonusOne();
-            BonusTwo();
-            //BonusThree();
+            //BonusTwo();
+            BonusThree();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -304,7 +304,7 @@ namespace DatabaseFirstLINQ
             string passwordInput = "";
             Console.Write("Please Enter Your Password: ");
             passwordInput = Console.ReadLine();
-
+           
             var validUser = _context.Users.Where(sc => sc.Email == emailInput && sc.Password == passwordInput).SingleOrDefault();
 
             if (validUser == null)
@@ -315,7 +315,7 @@ namespace DatabaseFirstLINQ
             else
             {
                 Console.WriteLine("Signed In");
-                
+                return;
             }
         }
 
@@ -331,22 +331,79 @@ namespace DatabaseFirstLINQ
                 Console.WriteLine($"{user.Email} your total is {shoppingCarts}");
             }
             Console.WriteLine($" Everyones total = {shoppingCartTotal}");
-        }   
+        }
 
         // BIG ONE
         private void BonusThree()
         {
 
-            // 2. If the user succesfully signs in
+            ////2.If the user succesfully signs in
             // a. Give them a menu where they perform the following actions within the console
             // View the products in their shopping cart
             // View all products in the Products table
             // Add a product to the shopping cart (incrementing quantity if that product is already in their shopping cart)
             // Remove a product from their shopping cart
-            // 3. If the user does not succesfully sing in
-            // a. Display "Invalid Email or Password"
-            //// b. Re-prompt the user for credentials
+            //// 3. If the user does not succesfully sing in
+            //// a. Display "Invalid Email or Password"
+            ////// b. Re-prompt the user for credentials
 
+            while (true)
+            {
+            
+            string emailInput = "";
+            Console.Write("Please Enter your email: ");
+            emailInput = Console.ReadLine();
+            string passwordInput = "";
+            Console.Write("Please Enter Your Password: ");
+            passwordInput = Console.ReadLine();
+
+            var validUser = _context.Users.Where(sc => sc.Email == emailInput && sc.Password == passwordInput).SingleOrDefault();
+
+                if (validUser == null)
+                {
+                    Console.WriteLine("Invalid Email or Password");
+                    
+
+                }
+                else
+                {
+                    Console.WriteLine("Signed In");
+                    Console.WriteLine($"Welcome to the store: {validUser.Email}");
+                    Console.Write("Please select from the following options:" +
+                        "\nThese are the options for shoping:" +
+                        "\n (1) View Shopping Cart" +
+                        "\n (2) View Products" +
+                        "\n (3) Add Product to Cart" +
+                        "\n (4) Remove Product from Cart ");
+                        string optionChoice = Console.ReadLine();
+                    switch (optionChoice)
+                    {
+                        case "1":
+                            Console.WriteLine($"{validUser.Email}'s Shopping Cart");
+                            var shoppingCart = _context.ShoppingCarts.Include(u => u.User).Include(p => p.Product).Where(ue => ue.User == validUser);
+                            foreach (var product in shoppingCart)
+                            {
+                                Console.WriteLine($"Name: {product.Product.Name} Price: ${product.Product.Price} Quantity: {product.Quantity}");
+                            }
+                            break;
+                        case "2":
+                            Console.WriteLine("PRODUCTS!!!");
+                            var products = _context.Products;
+                            foreach (var product in products)
+                            {
+                                Console.WriteLine($"Name: {product.Name} Price: ${product.Price}");
+                            }
+                            break;
+                        case "3":
+
+
+                            break;
+                    }
+                    return;
+
+                }
+                
+        }
         }
 
     }
